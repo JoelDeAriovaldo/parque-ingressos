@@ -19,4 +19,14 @@ export class StorageService {
   removeItem(key: string): void {
     localStorage.removeItem(key);
   }
+
+  addPurchase(purchase: any): void {
+    const purchases = this.getPurchaseHistory();
+    purchases.push(purchase);
+    this.setItem('purchaseHistory', purchases);
+  }
+
+  getPurchaseHistory(): any[] {
+    return this.getItem('purchaseHistory') || [];
+  }
 }

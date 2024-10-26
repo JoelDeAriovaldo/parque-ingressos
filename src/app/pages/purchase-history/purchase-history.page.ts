@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StorageService } from '../../core/services/storage.service';
 
 @Component({
   selector: 'app-purchase-history',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PurchaseHistoryPage implements OnInit {
 
-  constructor() { }
+  purchaseHistory: any[] = [];
+
+  constructor(private storageService: StorageService) { }
 
   ngOnInit() {
+    this.purchaseHistory = this.storageService.getPurchaseHistory();
   }
-
 }
