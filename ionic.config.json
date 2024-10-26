@@ -1,0 +1,7 @@
+{
+  "name": "parque-ingressos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
