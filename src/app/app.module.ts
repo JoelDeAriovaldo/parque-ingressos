@@ -8,7 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { PaymentService } from './core/services/payment.service';
 import { StorageService } from './core/services/storage.service';
 import { PurchaseDetailsComponentModule } from './components/purchase-details-component/purchase-details-component.module';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -16,7 +16,9 @@ import { PurchaseDetailsComponentModule } from './components/purchase-details-co
     IonicModule.forRoot(),
     AppRoutingModule,
     SharedModule,
-    PurchaseDetailsComponentModule
+    PurchaseDetailsComponentModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

@@ -8,19 +8,18 @@ export class AuthService {
 
   constructor(private storageService: StorageService) { }
 
+  register(username: string, email: string, password: string): boolean {
+    const userProfile = { username, email, password };
+    this.storageService.setUserProfile(userProfile);
+    return true;
+  }
+
   login(email: string, password: string): boolean {
-    const user = this.storageService.getItem(email);
-    if (user && user.password === password) {
-      this.storageService.setItem('currentUser', user);
+    const userProfile = this.storageService.getUserProfile();
+    if (userProfile && userProfile.email === email && userProfile.password === password) {
       return true;
     }
     return false;
-  }
-
-  register(name: string, email: string, password: string): boolean {
-    const user = { name, email, password };
-    this.storageService.setItem(email, user);
-    return true;
   }
 
   logout(): void {
