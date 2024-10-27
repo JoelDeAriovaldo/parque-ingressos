@@ -29,4 +29,12 @@ export class StorageService {
   getPurchaseHistory(): any[] {
     return this.getItem('purchaseHistory') || [];
   }
+
+  setUserProfile(profile: any): void {
+    this.setItem('userProfile', profile);
+  }
+
+  getUserProfile(): any {
+    return this.getItem('userProfile');
+  }
 }
