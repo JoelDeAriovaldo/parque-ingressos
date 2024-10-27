@@ -1,16 +1,160 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Home</ion-title>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <ion-text>Bem-vindo!</ion-text>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="navigateToNotifications()">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-badge *ngIf="notificationCount > 0" color="danger">{{notificationCount}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Home</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Banner/Carrossel de Promoções -->
+  <ion-slides pager="true" [options]="slideOpts" class="promotional-slides">
+    <ion-slide *ngFor="let promo of promotions">
+      <ion-card class="promo-card">
+        <img [src]="promo.image" [alt]="promo.title" />
+        <ion-card-header>
+          <ion-card-subtitle>{{promo.subtitle}}</ion-card-subtitle>
+          <ion-card-title>{{promo.title}}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
 
-  <ion-button expand="full" (click)="navigateToTicketPurchase()">Purchase Tickets</ion-button>
-  <ion-button expand="full" (click)="navigateToPurchaseHistory()">View Purchase History</ion-button>
+  <!-- Menu Rápido -->
+  <ion-grid class="quick-menu">
+    <ion-row>
+      <ion-col size="4">
+        <ion-card (click)="navigateToTicketPurchase()" class="menu-card">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="ticket-outline" color="primary" size="large"></ion-icon>
+            <p>Comprar Ingressos</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card (click)="navigateToPurchaseHistory()" class="menu-card">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="receipt-outline" color="primary" size="large"></ion-icon>
+            <p>Histórico</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card (click)="navigateToUserProfile()" class="menu-card">
+          <ion-card-content class="ion-text-center">
+            <ion-icon name="person-outline" color="primary" size="large"></ion-icon>
+            <p>Perfil</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Próximos Eventos -->
+  <ion-list-header>
+    <ion-label>
+      <h2>Próximos Eventos</h2>
+    </ion-label>
+    <ion-button fill="clear" (click)="seeAllEvents()">Ver todos</ion-button>
+  </ion-list-header>
+
+  <ion-list>
+    <ion-item *ngFor="let event of upcomingEvents" detail (click)="viewEventDetails(event.id)">
+      <ion-thumbnail slot="start">
+        <img [src]="event.image" [alt]="event.title" />
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{event.title}}</h3>
+        <p>{{event.date | date:'dd/MM/yyyy'}}</p>
+        <p>{{event.location}}</p>
+      </ion-label>
+      <ion-badge slot="end" [color]="event.tickets > 0 ? 'success' : 'danger'">
+        {{event.tickets > 0 ? 'Disponível' : 'Esgotado'}}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <!-- Menu Inferior -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="help-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="contactSupport()">
+        <ion-icon name="chatbubble-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="showFAQ()">
+        <ion-icon name="book-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>
+
+<style>
+  .promotional-slides {
+    height: 200px;
+    margin-bottom: 20px;
+  }
+
+  .promo-card {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
+  .promo-card img {
+    height: 150px;
+    object-fit: cover;
+  }
+
+  .quick-menu {
+    margin-bottom: 20px;
+  }
+
+  .menu-card {
+    margin: 0;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .menu-card:active {
+    transform: scale(0.95);
+  }
+
+  .menu-card ion-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+
+  .menu-card p {
+    margin: 0;
+    font-size: 12px;
+  }
+
+  ion-thumbnail {
+    width: 80px;
+    height: 80px;
+  }
+
+  ion-thumbnail img {
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  ion-badge {
+    padding: 8px;
+  }
+</style>
