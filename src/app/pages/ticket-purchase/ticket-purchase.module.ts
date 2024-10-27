@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { TicketPurchasePageRoutingModule } from './ticket-purchase-routing.module';
 
 import { TicketPurchasePage } from './ticket-purchase.page';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TicketPurchasePageRoutingModule
+    TicketPurchasePageRoutingModule,
+    SharedModule
   ],
   declarations: [TicketPurchasePage]
 })
-export class TicketPurchasePageModule {}
+export class TicketPurchasePageModule { }
