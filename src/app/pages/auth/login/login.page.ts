@@ -29,7 +29,7 @@ export class LoginPage {
   }
 
   register() {
-    // Implementar navegação para registro
+    this.router.navigate(['/register']);
   }
 }
 
