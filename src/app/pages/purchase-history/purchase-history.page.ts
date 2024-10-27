@@ -53,6 +53,14 @@ export class PurchaseHistoryPage implements OnInit {
     }
   }
 
+  async showPurchaseDetails(purchase: Purchase) {
+    const modal = await this.modalController.create({
+      component: PurchaseDetailsComponent,
+      componentProps: { purchase }
+    });
+    await modal.present();
+  }
+
   calculateStatistics() {
     console.log('calculateStatistics called');
     this.totalSpent = this.purchaseHistory.reduce((sum, purchase) => sum + (purchase.total ?? 0), 0);
@@ -74,23 +82,6 @@ export class PurchaseHistoryPage implements OnInit {
       this.groupedPurchases.get(key)?.push(purchase);
     });
     console.log('Purchases grouped by month:', this.groupedPurchases);
-  }
-
-  async showPurchaseDetails(purchase: Purchase) {
-    console.log('showPurchaseDetails called for purchase:', purchase);
-    const modal = await this.modalController.create({
-      component: PurchaseDetailsComponent,
-      componentProps: { purchase },
-      breakpoints: [0, 0.5, 0.8],
-      initialBreakpoint: 0.8
-    });
-
-    await modal.present();
-
-    const { data } = await modal.onDidDismiss();
-    if (data?.reload) {
-      this.loadPurchases();
-    }
   }
 
   getStatusColor(status: string): string {
@@ -211,7 +202,6 @@ export class PurchaseHistoryPage implements OnInit {
 
     this.groupPurchasesByMonth();
   }
-
 
   private sortPurchases(field: keyof Purchase, order: 'asc' | 'desc') {
     console.log('sortPurchases called with field and order:', field, order);
