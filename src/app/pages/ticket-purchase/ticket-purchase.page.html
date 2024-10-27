@@ -10,7 +10,7 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <!-- Detalhes do Evento -->
   <ion-card>
-    <img [src]="eventDetails.image" alt="Event Image" />
+    <img [src]="eventDetails.image" alt="Event Image" class="event-image" />
     <ion-card-header>
       <ion-card-subtitle>{{eventDetails.date | date:'dd/MM/yyyy - HH:mm'}}</ion-card-subtitle>
       <ion-card-title>{{eventDetails.name}}</ion-card-title>
@@ -22,7 +22,7 @@
       </ion-item>
       <ion-item lines="none">
         <ion-icon name="ticket-outline" slot="start"></ion-icon>
-        <ion-label>ingressos disponíveis: ilimitados</ion-label>
+        <ion-label>Ingressos disponíveis: {{eventDetails.availableTickets}}</ion-label>
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -128,10 +128,18 @@
   ion-card img {
     height: 200px;
     object-fit: cover;
+    width: 100%;
   }
 
   ion-note h2 {
     font-weight: bold;
     font-size: 1.2em;
+  }
+
+  .event-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px 12px 0 0;
   }
 </style>

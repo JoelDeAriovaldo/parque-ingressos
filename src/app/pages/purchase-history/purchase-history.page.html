@@ -60,7 +60,7 @@
       <ion-item-sliding *ngFor="let purchase of group.value">
         <ion-item detail (click)="showPurchaseDetails(purchase)" class="purchase-item">
           <ion-thumbnail slot="start">
-            <img [src]="purchase.eventImage || 'assets/default-event.jpg'" [alt]="purchase.eventName" />
+            <img [src]="purchase.eventImage || 'assets/event-image.jpg'" [alt]="purchase.eventName" />
           </ion-thumbnail>
 
           <ion-label>
