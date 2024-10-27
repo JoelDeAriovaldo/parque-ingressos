@@ -37,4 +37,9 @@ export class StorageService {
   getUserProfile(): any {
     return this.getItem('userProfile');
   }
+
+  clearUserData(): void {
+    this.removeItem('userProfile');
+    this.removeItem('purchaseHistory');
+  }
 }
