@@ -1,37 +1,93 @@
-/*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
- */
+/* App Global CSS */
+:root {
+  /* Primary colors - monochromatic green */
+  --ion-color-primary: #2E7D32;
+  --ion-color-primary-rgb: 46, 125, 50;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #286E2C;
+  --ion-color-primary-tint: #438847;
 
-/* Core CSS required for Ionic components to work properly */
+  /* Secondary variations */
+  --ion-color-secondary: #4CAF50;
+  --ion-color-secondary-rgb: 76, 175, 80;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #439A46;
+  --ion-color-secondary-tint: #5EB762;
+
+  /* Success state - darker green */
+  --ion-color-success: #1B5E20;
+  --ion-color-success-rgb: 27, 94, 32;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #18531C;
+  --ion-color-success-tint: #326E36;
+
+  /* Light green backgrounds */
+  --ion-color-light: #E8F5E9;
+  --ion-color-light-rgb: 232, 245, 233;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #CCDBCD;
+  --ion-color-light-tint: #EAF6EB;
+
+  /* Medium green */
+  --ion-color-medium: #81C784;
+  --ion-color-medium-rgb: 129, 199, 132;
+  --ion-color-medium-contrast: #000000;
+  --ion-color-medium-contrast-rgb: 0, 0, 0;
+  --ion-color-medium-shade: #72AF74;
+  --ion-color-medium-tint: #8ECD90;
+
+  /* Dark green */
+  --ion-color-dark: #1B5E20;
+  --ion-color-dark-rgb: 27, 94, 32;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #18531C;
+  --ion-color-dark-tint: #326E36;
+
+  /* Background colors */
+  --ion-background-color: #FFFFFF;
+  --ion-background-color-rgb: 255, 255, 255;
+  --ion-text-color: #1B5E20;
+  --ion-text-color-rgb: 27, 94, 32;
+
+  /* Item colors */
+  --ion-item-background: #FFFFFF;
+  --ion-item-border-color: #C8E6C9;
+
+  /* Card colors */
+  --ion-card-background: #FFFFFF;
+  --ion-card-color: #1B5E20;
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color: #1B5E20;
+    --ion-background-color-rgb: 27, 94, 32;
+    --ion-text-color: #E8F5E9;
+    --ion-text-color-rgb: 232, 245, 233;
+
+    --ion-card-background: #2E7D32;
+    --ion-card-color: #FFFFFF;
+
+    --ion-item-background: #2E7D32;
+    --ion-item-border-color: #4CAF50;
+  }
+}
+
+/* Keep your existing imports */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
