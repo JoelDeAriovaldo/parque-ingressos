@@ -1,23 +1,187 @@
 <ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Histórico de Compras</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="filterPurchases()">
+        <ion-icon name="filter-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Segmento para filtrar por período -->
   <ion-toolbar>
-    <ion-title>Purchase History</ion-title>
+    <ion-segment [(ngModel)]="selectedPeriod" (ionChange)="onPeriodChange($event)">
+      <ion-segment-button value="all">
+        <ion-label>Todos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="upcoming">
+        <ion-label>Próximos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="past">
+        <ion-label>Passados</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Purchase History</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Resumo das Compras -->
+  <ion-card class="summary-card">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <div class="stat-box">
+              <h3>Total Gasto</h3>
+              <p>{{totalSpent}} MT</p>
+            </div>
+          </ion-col>
+          <ion-col size="6">
+            <div class="stat-box">
+              <h3>Total Ingressos</h3>
+              <p>{{totalTickets}}</p>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 
+  <!-- Lista de Compras -->
   <ion-list>
-    <ion-item *ngFor="let purchase of purchaseHistory">
-      <ion-label>
-        <h2>Date: {{ purchase.date | date }}</h2>
-        <p>Quantity: {{ purchase.quantity }}</p>
-        <p>Total: {{ purchase.total }} Meticais</p>
-      </ion-label>
-    </ion-item>
+    <ion-item-group *ngFor="let group of groupedPurchases | keyvalue">
+      <ion-item-divider sticky>
+        <ion-label>{{group.key}}</ion-label>
+      </ion-item-divider>
+
+      <ion-item-sliding *ngFor="let purchase of group.value">
+        <ion-item detail (click)="showPurchaseDetails(purchase)" class="purchase-item">
+          <ion-thumbnail slot="start">
+            <img [src]="purchase.eventImage || 'assets/default-event.jpg'" [alt]="purchase.eventName" />
+          </ion-thumbnail>
+
+          <ion-label>
+            <h2>{{purchase.eventName}}</h2>
+            <p class="date-time">
+              <ion-icon name="calendar-outline"></ion-icon>
+              {{purchase.date | date:'dd/MM/yyyy - HH:mm'}}
+            </p>
+            <p>
+              <ion-icon name="ticket-outline"></ion-icon>
+              {{purchase.quantity}} {{purchase.quantity > 1 ? 'ingressos' : 'ingresso'}}
+            </p>
+            <ion-badge [color]="getStatusColor(purchase.status)">
+              {{purchase.status}}
+            </ion-badge>
+          </ion-label>
+
+          <div slot="end" class="price-tag">
+            <strong>{{purchase.total}} MT</strong>
+            <small>{{purchase.paymentMethod}}</small>
+          </div>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option (click)="shareTicket(purchase)">
+            <ion-icon slot="icon-only" name="share-outline"></ion-icon>
+          </ion-item-option>
+          <ion-item-option color="danger" (click)="requestRefund(purchase)">
+            <ion-icon slot="icon-only" name="return-up-back-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
   </ion-list>
+
+  <!-- Mensagem quando não há compras -->
+  <ion-content *ngIf="purchaseHistory.length === 0" class="ion-padding ion-text-center">
+    <ion-icon name="ticket-outline" class="empty-icon"></ion-icon>
+    <h2>Nenhuma compra encontrada</h2>
+    <p>Seus ingressos comprados aparecerão aqui</p>
+    <ion-button expand="block" routerLink="/home">
+      Explorar Eventos
+    </ion-button>
+  </ion-content>
+
+  <!-- FAB para suporte -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="contactSupport()">
+      <ion-icon name="help-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+<style>
+  .summary-card {
+    margin-bottom: 16px;
+    border-radius: 12px;
+  }
+
+  .stat-box {
+    text-align: center;
+    padding: 8px;
+  }
+
+  .stat-box h3 {
+    font-size: 0.9em;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+
+  .stat-box p {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 4px 0 0 0;
+    color: var(--ion-color-primary);
+  }
+
+  .purchase-item {
+    --padding-start: 8px;
+    --inner-padding-end: 8px;
+    margin: 8px 0;
+  }
+
+  ion-thumbnail {
+    --size: 80px;
+    margin: 8px;
+  }
+
+  .date-time {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  ion-icon {
+    margin-right: 4px;
+    font-size: 16px;
+  }
+
+  .price-tag {
+    text-align: right;
+    min-width: 80px;
+  }
+
+  .price-tag strong {
+    display: block;
+    color: var(--ion-color-primary);
+  }
+
+  .price-tag small {
+    color: var(--ion-color-medium);
+    font-size: 0.8em;
+  }
+
+  ion-badge {
+    margin-top: 4px;
+  }
+
+  .empty-icon {
+    font-size: 64px;
+    color: var(--ion-color-medium);
+    margin: 32px 0;
+  }
+</style>
