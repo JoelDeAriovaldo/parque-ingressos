@@ -1,19 +1,103 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Bem-vindo</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form (ngSubmit)="onLogin()">
-    <ion-item>
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-    </ion-item>
-    <ion-button expand="full" type="submit">Login</ion-button>
-  </form>
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <!-- Logo/Ícone -->
+    <div class="logo-container ion-text-center">
+      <ion-avatar class="logo">
+        <img src="/assets/logo.png" alt="Logo">
+      </ion-avatar>
+      <h2>Faça seu login</h2>
+      <p>Digite suas credenciais para acessar</p>
+    </div>
+
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <!-- Campo de Email -->
+      <ion-item class="ion-margin-bottom">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" [(ngModel)]="email" name="email" required
+          pattern="^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" #emailInput="ngModel">
+        </ion-input>
+        <ion-note slot="error" *ngIf="emailInput.touched && emailInput.invalid">
+          Por favor, insira um email válido
+        </ion-note>
+      </ion-item>
+
+      <!-- Campo de Senha -->
+      <ion-item class="ion-margin-bottom">
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" required
+          minlength="6" #passwordInput="ngModel">
+        </ion-input>
+        <ion-button fill="clear" slot="end" (click)="showPassword = !showPassword">
+          <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
+        <ion-note slot="error" *ngIf="passwordInput.touched && passwordInput.invalid">
+          A senha deve ter pelo menos 6 caracteres
+        </ion-note>
+      </ion-item>
+
+      <!-- Lembrar senha -->
+      <ion-item lines="none">
+        <ion-checkbox [(ngModel)]="rememberMe" name="rememberMe"></ion-checkbox>
+        <ion-label class="ion-padding-start">Lembrar-me</ion-label>
+      </ion-item>
+
+      <!-- Botão de Login -->
+      <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="!loginForm.valid || isLoading">
+        <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">Entrar</span>
+      </ion-button>
+
+      <!-- Links úteis -->
+      <div class="ion-text-center ion-margin-top">
+        <ion-button fill="clear" size="small" (click)="forgotPassword()">
+          Esqueceu a senha?
+        </ion-button>
+      </div>
+
+      <div class="ion-text-center ion-margin-top">
+        <p>
+          Ainda não tem uma conta?
+          <ion-button fill="clear" size="small" (click)="register()">
+            Registre-se
+          </ion-button>
+        </p>
+      </div>
+    </form>
+  </div>
 </ion-content>
+
+<style>
+  .login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .logo-container {
+    margin-bottom: 30px;
+  }
+
+  .logo {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    margin-bottom: 10px;
+    color: var(--ion-color-primary);
+  }
+
+  ion-button[type="submit"] {
+    margin-top: 20px;
+    --border-radius: 10px;
+    height: 50px;
+  }
+</style>

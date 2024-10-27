@@ -8,9 +8,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-
   email: string = '';
   password: string = '';
+  showPassword: boolean = false;
+  rememberMe: boolean = false;
+  isLoading: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -21,4 +23,14 @@ export class LoginPage {
       alert('Invalid credentials');
     }
   }
+
+  forgotPassword() {
+    // Implementar navegação para recuperação de senha
+  }
+
+  register() {
+    // Implementar navegação para registro
+  }
 }
+
+
