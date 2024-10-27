@@ -11,16 +11,16 @@ import { StorageService } from '../../core/services/storage.service';
 })
 export class TicketPurchasePage implements OnInit {
   eventDetails = {
-    name: 'Festival de Verão 2024',
+    name: 'Aceso ao parque das infestrutras verdes',
     date: new Date('2024-12-31T20:00:00'),
-    location: 'Praia do Tofo, Inhambane',
+    location: 'Bacia 1, Maquinino, Beira',
     image: 'assets/event-image.jpg',
     availableTickets: 250
   };
 
   ticketQuantity: number = 1;
-  ticketPrice: number = 750;
-  serviceFee: number = 50;
+  ticketPrice: number = 20;
+  serviceFee: number = 2.5;
   totalPrice: number = 0;
   selectedPaymentMethod: string = 'mpesa';
   acceptedTerms: boolean = false;
